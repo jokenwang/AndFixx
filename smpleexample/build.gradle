@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 
+def keyStore = file('../test.jks')
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
@@ -11,17 +13,43 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
+    signingConfigs {
+        relealse{
+            storeFile file(keyStore)
+            keyAlias 'test'
+            keyPassword '123qwe'
+            storePassword '123qwe'
+        }
+
+        config {
+            storeFile file(keyStore)
+            keyAlias 'test'
+            keyPassword '123qwe'
+            storePassword '123qwe'
+        }
+    }
+
+
     buildTypes {
         release {
-            minifyEnabled false
+            // 不显示Log
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            debuggable true
+            //混淆
+            minifyEnabled true
+            //移除无用的resource
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.relealse
         }
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
+    compile project(':jni')
 }

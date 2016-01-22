@@ -204,6 +204,7 @@ public class PatchManager {
 	 * 
 	 */
 	public void loadPatch() {
+		Log.d(TAG, "loadPatch");
 		mLoaders.put("*", mContext.getClassLoader());// wildcard
 		Set<String> patchNames;
 		List<String> classes;
@@ -215,6 +216,7 @@ public class PatchManager {
 						classes);
 			}
 		}
+		Log.d(TAG, "loadPatch finished");
 	}
 
 	/**
